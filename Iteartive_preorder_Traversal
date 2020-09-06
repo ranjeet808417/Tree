@@ -1,0 +1,77 @@
+#include <iostream>
+#include<stack>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+void iterative_preorder(bstnode* root){
+if(root==NULL){
+        return;
+}
+stack<bstnode*>treenode;
+treenode.push(root);
+while(!treenode.empty()){
+bstnode* temp=treenode.top();
+treenode.pop();
+cout<<temp->data<<" ";
+if(temp->right){
+        treenode.push(temp->right);
+}
+if(temp->left){
+        treenode.push(temp->left);
+}
+}
+}
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+bool search(bstnode* root,int data){
+if(root==NULL){
+        return false;
+}
+else if(root->data==data){
+        return true;
+}
+else if(data < root->data){
+return search(root->left,data);
+}
+else if(data > root->data){
+return search(root->right,data);
+}
+
+}
+
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,4);
+root=insert(root,34);
+root=insert(root,1);
+root=insert(root,5);
+root=insert(root,8);
+//cout<<search(root,1);
+iterative_preorder(root);
+
+}
