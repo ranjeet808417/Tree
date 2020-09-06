@@ -1,0 +1,78 @@
+#include <iostream>
+#include<stack>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+int LCA_binarytree(bstnode* root,int a,int b){
+while(root!=NULL){
+if(root->data >a && root->data >b){
+        root=root->left;
+}
+else if(root->data < a && root->data <b){
+root=root->right;
+}
+else {
+        break;
+}
+
+}
+return root->data;
+}
+
+
+
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+bool search(bstnode* root,int data){
+if(root==NULL){
+        return false;
+}
+else if(root->data==data){
+        return true;
+}
+else if(data < root->data){
+return search(root->left,data);
+}
+else if(data > root->data){
+return search(root->right,data);
+}
+
+}
+
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,4);
+root=insert(root,34);
+root=insert(root,1);
+root=insert(root,5);
+root=insert(root,8);
+//cout<<search(root,1);
+cout<<LCA_binarytree(root,5,8);
+
+}
