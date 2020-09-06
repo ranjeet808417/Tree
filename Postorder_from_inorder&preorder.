@@ -1,0 +1,29 @@
+#include <iostream>
+using namespace std;
+int search(int inorder[],int x,int n){
+        for(int i=0;i<n;i++){
+                if(inorder[i]==x){
+                        return i;
+                }
+        }
+return -1;
+}
+
+
+void print_postorder(int preorder[],int inorder[],int n){
+
+int root=search(inorder,preorder[0],n);
+if(root!=NULL){
+print_postorder(preorder+1,inorder,root);
+}
+if(root!=n-1){
+print_postorder(preorder+root+1,inorder+root+1,n-root-1);
+}
+cout<<preorder[0]<<" ";
+}
+int main() {
+    int preorder[]={8,3,1,6,4,7,10,14};
+    int inorder[]={1,3,4,6,7,8,10,14};
+    int n=sizeof(preorder)/sizeof(preorder[0]);
+    print_postorder(preorder,inorder,n);
+}
