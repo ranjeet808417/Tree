@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+int find_diameter(bstnode* root,int *res){
+if(root==NULL){
+        return 0;
+}
+int leftsubtree=find_diameter(root->left,res);
+int rightsubtree=find_diameter(root->right,res);
+*res=max(*res,leftsubtree+rightsubtree+1);
+
+if(leftsubtree>rightsubtree){
+        return leftsubtree+1;
+}
+else{
+        return rightsubtree+1;
+}
+
+
+
+}
+
+
+
+
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+bool search(bstnode* root,int data){
+if(root==NULL){
+        return false;
+}
+else if(root->data==data){
+        return true;
+}
+else if(data < root->data){
+return search(root->left,data);
+}
+else if(data > root->data){
+return search(root->right,data);
+}
+
+}
+
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,4);
+root=insert(root,34);
+root=insert(root,1);
+root=insert(root,5);
+root=insert(root,8);
+//cout<<search(root,1);
+root=insert(root,16);
+
+int dia=0;
+int p=find_diameter(root,&dia);
+cout<<"dia="<<dia<<endl<<"Max_height="<<p;
+}
