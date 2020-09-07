@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+int tree_heightbalance(bstnode* root,int* res){
+if(root==NULL){
+        return 0;
+}
+int left=tree_heightbalance(root->left,res);
+int right=tree_heightbalance(root->right,res);
+if(abs(left-right)>1){
+        *res=*res+1;
+}
+return 1+max(left,right);
+
+}
+
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+
+
+
+
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,13);
+int res=0;
+tree_heightbalance(root,&res);
+if(res){
+cout<<"not balanced\n";
+}
+else{
+cout<<"balanced\n";
+}
+}
