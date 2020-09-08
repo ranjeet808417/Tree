@@ -1,0 +1,99 @@
+#include <iostream>
+#include<climits>
+using namespace std;
+struct bstnode{
+string  str;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(string data){
+        bstnode* temp=new bstnode();
+        temp->str=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+
+/*bstnode* insert(bstnode* root,string data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}*/
+int convert_to_int(string s){
+if(s[0]!='-'){
+        int num=0;
+for(int i=0;i<s.length();i++){
+num=num*10+((int)s[i]-48);
+}
+return num;
+}
+else{
+   int num=0;
+for(int i=1;i<s.length();i++){
+num=num*10+((int)s[i]-48);
+}
+return num;
+
+}
+
+}
+int evaluate(bstnode* root){
+if(root==NULL){
+        return 0;
+}
+if(root->left==NULL && root->right==NULL){
+        return convert_to_int(root->str);
+}
+int left=evaluate(root->left);
+int right=evaluate(root->right);
+if(root->str=="+"){
+        return left+right;
+}
+else if(root->str=="-"){
+        return left-right;
+}
+else if(root->str=="*"){
+        return left*right;
+}
+else{ 
+        return left/right;
+}
+
+
+}
+
+
+
+int main() {
+
+
+ /*bstnode *root =getnewnode("+");  
+    root->left =getnewnode("*");  
+    root->left->left =getnewnode("5");  
+    root->left->right =getnewnode("-4");  
+    root->right =getnewnode("-");  
+    root->right->left =getnewnode("100");  
+    root->right->right =getnewnode("20");  
+   */
+   bstnode *root = getnewnode("+");  
+    root->left = getnewnode("*");  
+    root->left->left = getnewnode("5");  
+    root->left->right = getnewnode("4");  
+    root->right = getnewnode("-");  
+    root->right->left = getnewnode("100");  
+    root->right->right = getnewnode("/");  
+    root->right->right->left = getnewnode("20");  
+    root->right->right->right = getnewnode("2");  
+  
+   
+    cout << evaluate(root) << endl;
+
+}
