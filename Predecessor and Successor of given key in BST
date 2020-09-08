@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+void  search(bstnode* root,int data,int* predecessor,int* successor){
+if(root==NULL){
+        return ;
+}
+else if(root->data==data){
+if(root->left!=NULL){
+bstnode* temp=root->left;
+while(temp->right){
+        temp=temp->right;
+}
+*predecessor=temp->data;
+}
+if(root->right!=NULL){
+    bstnode* temp=root->right;
+    while(temp->left){
+            temp=temp->left;
+    }    
+*successor=temp->data;
+}
+
+}
+
+
+else if(data < root->data){
+*successor=root->data;
+ search(root->left,data,predecessor,successor);
+}
+else if(data > root->data){
+ *predecessor=root->data;
+ search(root->right,data,predecessor,successor);
+}
+
+}
+
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,13);
+
+int predecessor=-1;
+int successor=-1;
+search(root,10,&predecessor,&successor);
+cout<<predecessor<<" "<<successor;
+
+}
