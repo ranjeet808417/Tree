@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(int data){
+bstnode* temp=new bstnode();
+temp->data=data;
+temp->left=NULL;
+temp->right=NULL;
+return temp;
+}
+bstnode* Barray_to_BST(int start,int end,int arr[]){
+if(start > end){
+        return NULL;
+}
+int mid=start+(end-start)/2;
+bstnode* curr=getnewnode(arr[mid]);
+curr->left=Barray_to_BST(start,mid-1,arr);
+curr->right=Barray_to_BST(mid+1,end,arr);
+return curr;
+
+}
+void inorder(bstnode* root){
+if(root==NULL){
+        return;
+}
+cout<<root->data<<" ";
+inorder(root->left);
+
+inorder(root->right);
+
+}
+
+int main() {
+   int arr[]={1,2,3,4,5,6,7,8,9};
+   int size=sizeof(arr)/sizeof(arr[0]);
+    bstnode* root=Barray_to_BST(0,size-1,arr);
+inorder(root);
+}
