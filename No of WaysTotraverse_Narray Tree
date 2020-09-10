@@ -1,0 +1,59 @@
+#include <iostream>
+#include<queue>
+#include<vector>
+using namespace std;
+struct bstnode{
+int data;
+vector<bstnode*>vec;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        
+        return temp;
+}
+int factorial(int n){
+        int num=1;
+        for(int i=1;i<=n;i++){
+                num=num*i;
+        }
+
+return num;
+}
+int find_No_of_traverse(bstnode* root){
+int ways=1;
+queue<bstnode*>q;
+q.push(root);
+while(!q.empty()){
+bstnode* temp=q.front();
+q.pop();
+ways=ways*factorial(temp->vec.size());
+for(int i=0;i<temp->vec.size();i++){
+        q.push(temp->vec[i]);
+}
+}
+return ways;
+}
+
+
+
+
+int main(){
+
+bstnode* root = getnewnode(0); 
+   (root->vec).push_back(getnewnode(1)); 
+   (root->vec).push_back(getnewnode(5)); 
+   (root->vec).push_back(getnewnode(3)); 
+   (root->vec).push_back(getnewnode(4)); 
+   (root->vec[0]->vec).push_back(getnewnode(10)); 
+   (root->vec[0]->vec).push_back(getnewnode(9)); 
+   (root->vec[2]->vec).push_back(getnewnode(6)); 
+   (root->vec[3]->vec).push_back(getnewnode(2)); 
+   (root->vec[3]->vec).push_back(getnewnode(7)); 
+   (root->vec[3]->vec).push_back(getnewnode(8)); 
+   (root->vec[0]->vec[0]->vec).push_back(getnewnode(13)); 
+   (root->vec[0]->vec[0]->vec).push_back(getnewnode(12)); 
+   (root->vec[3]->vec[2]->vec).push_back(getnewnode(11)); 
+  
+cout<<find_No_of_traverse(root);
+}
