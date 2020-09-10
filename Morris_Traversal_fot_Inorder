@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+bstnode* findpredecessor(bstnode* curr){
+bstnode* pre=curr->left;
+while(pre->right!=NULL && pre->right!=curr){
+  pre=pre->right;
+}
+return pre;
+
+}
+void morris_inorderTraversal(bstnode* root){
+bstnode* curr=root;
+while(curr!=NULL){
+if(curr->left==NULL){
+cout<<curr->data<<" ";
+curr=curr->right;
+}
+else{
+bstnode* predecessor=findpredecessor(curr);
+  if(predecessor->right==NULL){
+    predecessor->right=curr;
+    curr=curr->left;
+  }
+else{
+predecessor->right=NULL;
+cout<<curr->data<<" ";
+  curr=curr->right;
+}
+
+}  //else close
+}//while close
+}
+
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+
+int main() {
+bstnode* root=NULL;
+/*root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);*/
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,98);
+root=insert(root,137);
+root=insert(root,-67);
+root=insert(root,-1);
+root=insert(root,1390);
+morris_inorderTraversal(root);
+}
