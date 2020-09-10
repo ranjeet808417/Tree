@@ -1,0 +1,86 @@
+#include <iostream>
+#include<queue>
+#include<map>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+struct node{
+int data;
+node* next;
+node(int x){
+data=x;
+next=NULL;
+}
+};
+void convertToDLL(bstnode* root,node** head,node** tail){
+if(root==NULL){
+        return;
+}
+convertToDLL(root->left,head,tail);
+if(*head==NULL){
+*head=new node(root->data);
+*tail=*head;
+}
+else{
+(*tail)->next=new node(root->data);
+*tail=(*tail)->next;
+}
+
+convertToDLL(root->right,head,tail);
+}
+
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,13);
+/*root = insert(root, -5); 
+    root = insert(root, -7); 
+    root = insert(root, 13); 
+    root = insert(root, 12); 
+    root = insert(root, 11); 
+    root = insert(root, 15); 
+     root = insert(root, 10); 
+    root = insert(root, 14); */
+node* head=NULL;
+node* tail=NULL;
+convertToDLL(root,&head,&tail);
+while(head){
+        cout<<head->data<<" ";
+        head=head->next;
+}
+
+}
