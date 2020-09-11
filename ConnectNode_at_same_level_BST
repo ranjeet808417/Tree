@@ -1,0 +1,131 @@
+#include <iostream>
+#include<queue>
+#include<map>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+bstnode* nextright;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        temp->nextright=NULL;
+        return temp;
+}
+bstnode* getnextright(bstnode* temp){
+bstnode* next=temp->nextright;
+while(next!=NULL){
+if(next->left!=NULL){
+return next->left;
+}
+else if(next->right!=NULL){
+        return next->right;
+}
+else{
+        next=next->nextright;
+}
+}
+return NULL;
+}
+
+void connect_node_atSame_level(bstnode* root){
+bstnode* level=root;
+vector<bstnode*>vec;
+while(level!=NULL){  //--------------1
+bstnode* each_node=level;
+vec.push_back(each_node);
+while(each_node!=NULL){//----------------2
+
+if(each_node->left){ //111111
+if(each_node->right){
+        each_node->left->nextright=each_node->right;
+}
+else{
+        each_node->left->nextright=getnextright(each_node);
+}
+}//1111111
+  //2222222
+     if(each_node->right){
+             each_node->right->nextright=getnextright(each_node);
+     }   
+//2222222222
+
+
+each_node=each_node->nextright;
+}//--------2
+if(level->left!=NULL){
+        level=level->left;
+}
+else if(level->right!=NULL){
+        level=level->right;
+}
+else{
+        level=getnextright(level);
+}
+}//------1
+
+for(int i=0;i<vec.size();i++){
+       bstnode* temp=vec[i];
+        while(temp!=NULL){
+              cout<<temp->data<<" ";
+                temp=temp->nextright;
+        }
+}
+
+
+}
+
+        
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,13);
+root = insert(root, -5); 
+    root = insert(root, -7); 
+   
+    root = insert(root, 12); 
+    root = insert(root, 11); 
+    root = insert(root, 15); 
+    /* root = insert(root, 10); 
+    root = insert(root, 14); */
+/*root = insert(root, 10); 
+    root = insert(root, 13); 
+    root = insert(root, 14); 
+    root = insert(root, 15); 
+    root = insert(root, 9); 
+     root = insert(root, 8); 
+root = insert(root, 7); */
+   // root = insert(root, 13); 
+    
+
+connect_node_atSame_level(root);
+
+}
