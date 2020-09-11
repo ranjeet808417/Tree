@@ -1,0 +1,101 @@
+#include <iostream>
+#include<queue>
+#include<map>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+
+int width_of_BST(bstnode* root){
+int ans=0;
+queue<pair<bstnode*,int>>q;
+q.push({root,1});
+while(1){
+int nodesize=q.size();
+if(nodesize==0){
+        break;
+}
+ans=max(ans,(q.back().second - q.front().second)+1);
+
+while(nodesize>0){
+pair<bstnode*,int>p=q.front();
+bstnode* temp=p.first;
+int wt=p.second;
+q.pop();
+if(temp->left){
+        q.push({temp->left,2*wt});
+}
+if(temp->right){
+        q.push({temp->right,2*wt+1});
+}
+nodesize--;
+}//while end
+
+
+}//1 end
+
+
+
+return ans;
+
+
+}
+
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,13);
+/*root = insert(root, -5); 
+    root = insert(root, -7); 
+    root = insert(root, 13); 
+    root = insert(root, 12); 
+    root = insert(root, 11); 
+    root = insert(root, 15); 
+     root = insert(root, 10); 
+    root = insert(root, 14); */
+/*root = insert(root, 10); 
+    root = insert(root, 13); 
+    root = insert(root, 14); 
+    root = insert(root, 15); 
+    root = insert(root, 9); 
+     root = insert(root, 8); 
+root = insert(root, 7); */
+   // root = insert(root, 13); 
+    
+
+cout<<width_of_BST(root);
+
+}
