@@ -1,0 +1,73 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+struct bstnode{
+        int data;
+        bstnode* left;
+        bstnode* right;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+int findmax(int inorder[],int start,int end){
+int max=inorder[start];
+int index=start;
+for(int i=start;i<=end;i++){
+        if(inorder[i]>max){
+                max=inorder[i];
+                index=i;
+        }
+}
+
+return index;
+}
+bstnode* construct_specialBinaryTree(int inorder[],int start,int end){
+if(start > end){
+        return NULL;
+}
+
+int maxindex=findmax(inorder,start,end);
+bstnode* temp=getnewnode(inorder[maxindex]);
+
+temp->left=construct_specialBinaryTree(inorder,start,maxindex-1);
+temp->right=construct_specialBinaryTree(inorder,maxindex+1,end);
+return temp;
+
+
+}
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+void Inorder(bstnode* root){
+if(root==NULL){
+        return;
+}
+Inorder(root->left);
+cout<<root->data<<" ";
+Inorder(root->right);
+
+}
+
+int main() {
+   
+    int inorder[]={5,10,40,30,28};
+    int size=sizeof(inorder)/sizeof(inorder[0]);
+    
+    bstnode* root=construct_specialBinaryTree(inorder,0,size-1);
+
+Inorder(root);
+}
