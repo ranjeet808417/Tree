@@ -1,0 +1,97 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+struct bstnode{
+        int data;
+        bstnode* left;
+        bstnode* right;
+        bool isthreaded;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        temp->isthreaded=0;
+        return temp;
+}
+bstnode* findpredecessor(bstnode* root){
+bstnode* temp=root->left;
+while(temp->right!=NULL && temp->right!=root){
+        temp=temp->right;
+}
+return temp;
+}
+void convert_threadedBinaryTree(bstnode* root){
+
+bstnode* curr=root;
+while(curr!=NULL){
+
+if(curr->left==NULL){
+        curr=curr->right;
+}
+else{
+bstnode* predecessor=findpredecessor(curr);
+if(predecessor->right==NULL){
+predecessor->right=curr;
+predecessor->isthreaded=1;
+curr=curr->left;
+}
+else{
+    curr=curr->right;    
+}
+}
+}
+}
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+}
+
+bstnode* leftmost(bstnode* root){
+if(root==NULL){
+        return root;
+}
+while(root->left){
+        root=root->left;
+}
+return root;
+}
+
+
+void Inorder(bstnode* root){
+while(root!=NULL){
+cout<<root->data<<" ";
+if(root->isthreaded){
+        root=root->right;
+}
+else{
+root=leftmost(root->right);
+}
+}
+}
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,6);
+root=insert(root,3);
+root=insert(root,8);
+root=insert(root,1);
+root=insert(root,5);
+root=insert(root,7);
+root=insert(root,11);
+root=insert(root,9);
+root=insert(root,13);
+convert_threadedBinaryTree(root);
+bstnode* left=leftmost(root);
+Inorder(left);
+}
