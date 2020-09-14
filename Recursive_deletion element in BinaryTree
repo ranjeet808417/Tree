@@ -1,0 +1,60 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+bstnode* nextright;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        temp->nextright=NULL;
+        return temp;
+}
+
+bstnode* Recursive_delete(bstnode* root){
+if(root==NULL){
+        return NULL;
+}
+root->left=Recursive_delete(root->left);
+root->right=Recursive_delete(root->right);
+cout<<root->data<<" ";
+delete root;
+return NULL;
+}
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,13);
+
+  cout<<" deleted element "; 
+Recursive_delete(root);
+
+}
