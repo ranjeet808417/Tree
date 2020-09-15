@@ -1,0 +1,89 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+bstnode* next;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        temp->next=NULL;
+        return temp;
+}
+void populate_inorderSucsessor(bstnode* root,bstnode** prev){
+if(root==NULL){
+return;
+}
+populate_inorderSucsessor(root->left,prev);
+
+if(*prev){
+        (*prev)->next=root;
+}
+
+*prev=root;
+populate_inorderSucsessor(root->right,prev);                        
+
+}
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+bstnode* leftmost(bstnode* root){
+if(root->left==NULL){
+        return root;
+}
+return leftmost(root->left);
+}
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,13);
+
+/*root = insert(root, -5); 
+    root = insert(root, -7); 
+   
+    root = insert(root, 12); 
+    root = insert(root, 11); 
+    root = insert(root, 15); */
+    /* root = insert(root, 10); 
+    root = insert(root, 14); */
+/*root = insert(root, 10); 
+    root = insert(root, 13); 
+    root = insert(root, 14); 
+    root = insert(root, 15); 
+    root = insert(root, 9); */
+
+bstnode* prev=NULL;
+populate_inorderSucsessor(root,&prev);
+   bstnode* temp=leftmost(root);
+  cout<<endl;
+   while(temp){
+cout<<temp->data<<" ";
+           temp=temp->next;
+   }
+
+}
