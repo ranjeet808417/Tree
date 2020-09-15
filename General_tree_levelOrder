@@ -1,0 +1,80 @@
+#include <iostream>
+#include<queue>
+#include<vector>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+vector<bstnode*>child;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        
+        return temp;
+}
+void General_tree_levelOrder(bstnode* root){
+if(root==NULL){
+        return;
+}
+queue<bstnode*>q;
+q.push(root);
+while(1){
+int nodesize=q.size();
+if(nodesize==0){
+        break;
+}
+
+while(nodesize>0){
+bstnode* temp=q.front();
+q.pop();
+cout<<temp->data<<" ";
+for(int i=0;i<temp->child.size();i++){
+        q.push(temp->child[i]);
+}
+
+nodesize--;
+}//while end
+cout<<endl;
+
+}
+
+
+
+}
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+
+
+int main() {
+bstnode* root=NULL;
+     root = getnewnode(10); 
+    (root->child).push_back(getnewnode(2)); 
+    (root->child).push_back(getnewnode(34)); 
+    (root->child).push_back(getnewnode(56)); 
+    (root->child).push_back(getnewnode(100)); 
+    (root->child[0]->child).push_back(getnewnode(77)); 
+    (root->child[0]->child).push_back(getnewnode(88)); 
+    (root->child[2]->child).push_back(getnewnode(1)); 
+    (root->child[3]->child).push_back(getnewnode(7)); 
+    (root->child[3]->child).push_back(getnewnode(8)); 
+    (root->child[3]->child).push_back(getnewnode(9)); 
+General_tree_levelOrder(root);
+
+}
