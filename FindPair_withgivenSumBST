@@ -1,0 +1,87 @@
+#include <iostream>
+#include<queue>
+#include<unordered_set>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        
+        return temp;
+}
+
+bool findPair_withgivenSum(bstnode* root,unordered_set<int>&s,int sum){
+if(root==NULL){
+        return false ;
+}
+
+if(findPair_withgivenSum(root->left,s,sum)){
+        return true;
+}
+if(s.find(sum-root->data)!=s.end()){
+        cout<<"pair found "<<sum-root->data<<" "<<root->data<<endl;
+return true;
+}
+else{
+s.insert(root->data); 
+}
+
+ return findPair_withgivenSum(root->right,s,sum);
+
+}
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,13);
+/*root = insert(root, -5); 
+    root = insert(root, -7); 
+   
+    root = insert(root, 12); 
+    root = insert(root, 11); 
+    root = insert(root, 15); */
+    /* root = insert(root, 10); 
+    root = insert(root, 14); */
+/*root = insert(root, 10); 
+    root = insert(root, 13); 
+    root = insert(root, 14); 
+    root = insert(root, 15); 
+    root = insert(root, 9); 
+     root = insert(root, 8); 
+root = insert(root, 7); */
+   // root = insert(root, 13); 
+   unordered_set<int>s;
+   findPair_withgivenSum(root,s,17);
+          // cout<<"pair not found";
+   //}
+
+}
