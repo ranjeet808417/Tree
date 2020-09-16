@@ -1,0 +1,63 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        
+        return temp;
+}
+void depth_fullBinaryTREE(bstnode* root,int level,int* maxdepth){
+
+if(root==NULL){
+        return ;
+}
+if(level> *maxdepth){
+        *maxdepth=level;
+}
+depth_fullBinaryTREE(root->left,level+1,maxdepth);
+depth_fullBinaryTREE(root->right,level+1,maxdepth);
+
+
+}
+
+bstnode* insert(bstnode* root,int data){
+if(root==NULL){
+root=getnewnode(data);
+}
+else if(data<=root->data){
+        root->left=insert(root->left,data);
+}
+else if(data >root->data){
+root->right=insert(root->right,data);
+}
+return root;
+
+}
+
+
+
+int main() {
+bstnode* root=NULL;
+root=insert(root,8);
+root=insert(root,3);
+root=insert(root,10);
+root=insert(root,1);
+root=insert(root,6);
+root=insert(root,14);
+root=insert(root,4);
+root=insert(root,7);
+root=insert(root,13);
+
+   int maxdepth=-1; 
+   depth_fullBinaryTREE(root,0,&maxdepth);
+cout<<maxdepth;
+}
