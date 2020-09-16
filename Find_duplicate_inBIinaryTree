@@ -1,0 +1,48 @@
+#include <iostream>
+#include<unordered_set>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+
+};
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        
+        return temp;
+}
+bool find_duplicate_inBIinaryTree(bstnode* root,int key,unordered_set<int>&s){
+if(root==NULL){
+        return false;
+}
+if(s.find(key)!=s.end()){
+return true;
+}
+
+        s.insert(root->data);
+
+return find_duplicate_inBIinaryTree(root->left,key,s) || find_duplicate_inBIinaryTree(root->right,key,s);
+
+}
+
+
+
+
+
+int main() {
+bstnode* root=NULL;
+root=getnewnode(8);
+root->left=getnewnode(3);
+root->right=getnewnode(10);
+root->left->left=getnewnode(3);
+root->right->right=getnewnode(14);
+
+
+   unordered_set<int>s;
+   cout<<find_duplicate_inBIinaryTree(root,3,s);
+
+}
