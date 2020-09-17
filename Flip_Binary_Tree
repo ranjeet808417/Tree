@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+struct bstnode{
+int data;
+bstnode* left;
+bstnode* right;
+};
+
+bstnode* getnewnode(int data){
+        bstnode* temp=new bstnode();
+        temp->data=data;
+        temp->left=NULL;
+        temp->right=NULL;
+        return temp;
+}
+bstnode*  flip_binaryTree(bstnode* root){
+if(root==NULL){
+        return root;
+}
+else if(root->left==NULL && root->right==NULL){
+        return root;
+}
+bstnode* temp=flip_binaryTree(root->left);
+root->left->left=root->right;
+root->left->right=root;
+root->left=NULL;
+root->right=NULL;
+return temp;
+
+}
+void inorder(bstnode* root){
+if(root==NULL){
+        return ;
+}
+inorder(root->left);
+cout<<root->data<<" ";
+inorder(root->right);
+
+
+}
+int main() {
+  bstnode* root=NULL;
+  root=getnewnode(1);
+  root->left=getnewnode(2);
+  root->right=getnewnode(3);
+  root->left->left=getnewnode(4);
+  root->left->right=getnewnode(5);
+  root->right->left=getnewnode(6);
+  root->right->right=getnewnode(7);
+  bstnode* flip=flip_binaryTree(root);
+  inorder(flip);
+}
